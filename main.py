@@ -1,10 +1,12 @@
 import math
 
+#This is the planet class. Will be used to assign returned NASA data. 
 class Planet:
     PlanetName: str
     PlanetDistanceParsecs: float
     PlanetDistanceBanana: float
 
+#This fucntion formats banana distance to create a readable banana distance. 
 def format(num: float):
     numString = str(num)
     numList = list(numString)
@@ -20,11 +22,13 @@ def format(num: float):
         newString = "".join(numList)
     return newString
 
+#Testing the planet class and format fucntion
 parsecInches = 1214834000000000000
+
 tempPlanet = Planet
 tempPlanet.PlanetName = "Gooba"
 tempPlanet.PlanetDistanceParsecs = 1
-tempPlanet. PlanetDistanceBanana = parsecInches * tempPlanet.PlanetDistanceParsecs
+tempPlanet.PlanetDistanceBanana = "{:.0f}".format((parsecInches * tempPlanet.PlanetDistanceParsecs) / 7.0)
 format(parsecInches)
 print(f"Distance to {tempPlanet.PlanetName} in Parsecs: {tempPlanet.PlanetDistanceParsecs}")
 print(f"DIstance to {tempPlanet.PlanetName} in bananas: {format(tempPlanet.PlanetDistanceBanana)}")
