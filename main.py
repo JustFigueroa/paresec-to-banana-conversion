@@ -1,10 +1,9 @@
 import math
+import QueryBuilder
+import QuerySender
+import Planet
+import json
 
-#This is the planet class. Will be used to assign returned NASA data. 
-class Planet:
-    PlanetName: str
-    PlanetDistanceParsecs: float
-    PlanetDistanceBanana: float
 
 #This fucntion formats banana distance to create a readable banana distance. 
 def format(num: float):
@@ -22,13 +21,28 @@ def format(num: float):
         newString = "".join(numList)
     return newString
 
-#Testing the planet class and format fucntion
+queryString = QueryBuilder.buildQuery()
+data = QuerySender.sendRequest(queryString)
+planets = [Planet.Planet(item["pl_name"], item ["hostname"], item ["sy_dist"] ) for item in data]
 parsecInches = 1214834000000000000
 
-tempPlanet = Planet
-tempPlanet.PlanetName = "Gooba"
-tempPlanet.PlanetDistanceParsecs = 1
-tempPlanet.PlanetDistanceBanana = "{:.0f}".format((parsecInches * tempPlanet.PlanetDistanceParsecs) / 7.0)
-format(parsecInches)
-print(f"Distance to {tempPlanet.PlanetName} in Parsecs: {tempPlanet.PlanetDistanceParsecs}")
-print(f"DIstance to {tempPlanet.PlanetName} in bananas: {format(tempPlanet.PlanetDistanceBanana)}")
+for planet in planets:
+    print(f"Planet Name: {planet.PlanetName}") 
+    print(f"\tHost Star: {planet.HostStar}")
+    if (planet.PlanetDistanceParsecs == None):
+        print(f"\tDistance Parsecs: Unknown")
+        print(f"\tDistance Banana: Unknown")
+        print("")
+    else: 
+        print(f"\tDistance Parsecs: {planet.PlanetDistanceParsecs}")
+        planet.PlanetDistanceBanana = "{:.0f}".format((parsecInches * planet.PlanetDistanceParsecs) / 7.0)
+        print(f"\tDistance Banana: {planet.PlanetDistanceBanana}")
+        print("")
+#Testing the planet class and format fucntion
+#tempPlanet = Planet
+#tempPlanet.PlanetName = "Gooba"
+#tempPlanet.PlanetDistanceParsecs = 1
+#tempPlanet.PlanetDistanceBanana = "{:.0f}".format((parsecInches * tempPlanet.PlanetDistanceParsecs) / 7.0)
+#format(parsecInches)
+#print(f"Distance to {tempPlanet.PlanetName} in Parsecs: {tempPlanet.PlanetDistanceParsecs}")
+#print(f"DIstance to {tempPlanet.PlanetName} in bananas: {format(tempPlanet.PlanetDistanceBanana)}")
